@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import TodoContainer from './components/TodoContainer/todoContainer';
 
-function App() {
+
+export default function App() {
+
+  const [todo, setTodo]  = useState([]);
+
+
+  const addTask = (item) => {
+    let newTask = {
+      id : todo.length +1,
+      task : item,
+      date : new Date().toLocaleDateString()
+    }
+
+    setTodo([...todo, newTask])
+  }
+
+  const deleteTask = (tasks) => {
+    tasks.forEach(id => {
+      setTodo((todo) => todo.filter((todo) => todo.id !== id))
+    });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{marginTop : '3rem'}}>
+        <TodoContainer todos={todo} deleteTask={deleteTask} addTask={addTask}/>
     </div>
-  );
+  )
 }
-
-export default App;
